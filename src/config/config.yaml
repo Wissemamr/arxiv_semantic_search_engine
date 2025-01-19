@@ -1,0 +1,12 @@
+qdrant:
+  api_key: "rk952U4p1z_IczfJw26uW4dMs7MmImEdTalNnGBjXhJafK9ULC-mEQ"
+  url: "https://c78d9444-e02b-4db0-ab58-fa3c0b13e5cd.europe-west3-0.gcp.cloud.qdrant.io:6333"
+  collection_name: "arxiv_collection"
+
+data:
+  filepath: "../data/ArXiv-10.csv"
+  batch_size: 50
+
+model:
+  name: "distilbert-base-uncased"
+  embedding_dim: 768

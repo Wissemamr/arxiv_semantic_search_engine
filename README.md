@@ -1,24 +1,24 @@
 # Semantic Search Engine for Arxiv Research Papers
 
 <br>
-This repository contains a semantic search application fro ArXiv research papers that leverages a pre-trained DistilBERT model for generating vector embeddings and Qdrant Vector database to store them and retrieve the most relevant research papers based on user queries and and the results of the search engine. 
+This repository contains a semantic search application for ArXiv research papers that using a pre-trained DistilBERT model for generating vector embeddings and Qdrant Vector database to store them and retrieve the most relevant research papers based on user queries and and the results of the search engine. 
 
 ## Pipeline
 
 1. **Data acquisition**:
-    - We used the [ArXiv-10](https://huggingface.co/datasets/effectiveML/ArXiv-10) dataset from HuggingFace that contains 100k rows of research papers in 10 disciplines : computer science, astrophysics, quantum physics, statistics... featuring the id of teh paper, its abstract and its label(discipline/domain)
+    - We used the [ArXiv-10](https://huggingface.co/datasets/effectiveML/ArXiv-10) dataset from HuggingFace that contains 100k rows of research papers in 10 disciplines : computer science, astrophysics, quantum physics, statistics... featuring the id of the paper, its abstract and its label (discipline/domain)
 
 1. **Embedding Creation**:
-   - The DistilBERT model was used due to limited compute power (no GPU) to encode the dataset, more specifically the abstract column into dense vector representations of dimension 768.
+   - The DistilBERT model was used due to limited compute power (no GPU) to encode the dataset, more specifically the abstract column into dense vector representations of dimension 768, this process done in batches due to the size of the dataset.
 
 2. **Vector Database**:
-   - The [Qdrant Cloud](https://qdrant.tech/documentation/cloud-intro/) was used to instance store the pre-computed embeddings of the research papers.
+   - The [Qdrant Cloud](https://qdrant.tech/documentation/cloud-intro/) was used to store the pre-computed embeddings of the research papers.
 
-3. **Semantic Search **:
+3. **Semantic Search**:
    - A user enters a query into the Streamlit app and can choose how many search results to display.
    - The query is encoded into a vector using DistilBERT.
-   - The vector is sent to the Qdrant Cloud instance, using built-in Qdrant semantic search, taking cosine similarity as a simialrity metric, Qdrant retrieves the top-k most similar poinstructs and their payloads.
-   - The payloads of the retrieved pointstruts including the title and the text version of the abstract itself are displayed in streamlit cards within the interface.
+   - The vector is sent to the Qdrant Cloud instance, using built-in Qdrant semantic search, taking cosine similarity as a simialrity metric, we retrieve retrieves the top-k most similar poinstructs and their payloads.
+   - The payloads of the retrieved pointstruts including the title and the text version of the abstract itself as well as the similariy score are displayed in streamlit cards within the interface.
 
 ## Tech Stack
 - **Python + Pytorch** : for the implementation.
@@ -70,22 +70,29 @@ This repository contains a semantic search application fro ArXiv research papers
    Create a `config.yaml` file in the root directory with the following structure:
      ```yaml
      qdrant:
-       url: "<your-qdrant-cloud-url>"
-       api_key: "<your-api-key>"
+       url: "<qdrant-cloud-url>"
+       api_key: "<api-key>"
        collection_name: "arxiv-collection"
      ```
 
-4. **Run the Application**:
+4. **Run the app**:
    ```bash
    cd src
    streamlit run app.py
    ```
 
-5. **Access the App**:
+5. **Access the app**:
    - Open a browser and navigate to `http://localhost:8501`.
 
+6. **Perform search**:
+   - Enter your search qeury in the search bar, select from the sliding bar the number of returned search results and click on `Search`
 
 
+## Demonstration
+
+<div>
+   <img src= "assets/demo.png" heihgt=700 width=800>
+</div>
 
 ## Future Improvements
 
